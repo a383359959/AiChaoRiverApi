@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no,minimal-ui">
+		<title>派单列表</title>
+		<link rel="stylesheet" href="__PUBLIC__/Peisong/css/common.css" />
+		<link rel="stylesheet" href="__PUBLIC__/Peisong/css/style.css" />
+		<script type="text/javascript" src="__PUBLIC__/Peisong/js/jquery.min.js"></script>
+		<script type="text/javascript" src="__PUBLIC__/Peisong/js/countdown.js"></script>
+		<script type="text/javascript" src="__PUBLIC__/Peisong/js/common.js"></script>
+		<script>
+			{$htmlJs}
+		</script>
+	</head>
+	<body>
+		<include file="Public:header" />
+		<div class="container">
+			<h1>派单列表</h1>
+			
+			{$listHtml}
+			
+		</div>
+	</body>
+	
+	<script>
+	 
+		var is_button = true;
+	 
+		//接单
+		function funJieDan(id){
+		
+			if(!is_button){
+				return false;
+			}
+
+			is_button = false;
+
+			if(confirm("确定接单吗？")){
+				
+				$.post("/index.php/Peisong/Task/doPaiDanJieDan",
+				{"id":id},
+				function(result){
+
+					is_button = true ;
+
+					if(result == "1"){
+						window.location.href = "/index.php/Peisong/Task/paidan";
+					}else{
+						alert("操作失败！请稍后再试。");
+					}
+
+				});
+
+			}
+		}
+
+
+		//拒单
+		function funJuDan(id){
+		
+			if(!is_button){
+				return false;
+			}
+
+			is_button = false;
+		
+			if(confirm("确定要拒单吗？每天最多拒单五次，超出后将扣除信用值。")){
+				
+				$.post("/index.php/Peisong/Task/doPaiDanJuDan",
+				{"id":id},
+				function(result){
+
+					is_button = true ;
+
+					if(result == "1"){
+						window.location.href = "/index.php/Peisong/Task/paidan";
+					}else{
+						alert("操作失败！请稍后再试。");
+					}
+
+				});
+
+			}
+		}
+	
+	</script>
+	
+</html>

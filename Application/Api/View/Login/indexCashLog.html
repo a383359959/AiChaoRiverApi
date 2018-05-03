@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no,minimal-ui">
+		<title>提现记录</title>
+		<link rel="stylesheet" href="__PUBLIC__/Store/css/common.css" />
+		<link rel="stylesheet" href="__PUBLIC__/Store/css/style.css" />
+		<script type="text/javascript" src="__PUBLIC__/Store/js/jquery.min.js"></script>
+		<script type="text/javascript" src="__PUBLIC__/Store/js/common.js"></script>
+		<link rel="stylesheet" href="__PUBLIC__/Store/css/dropload.css">
+		<script src="__PUBLIC__/Store/js/dropload.min.js"></script>
+		<link rel="stylesheet" href="__PUBLIC__/Store/css/DateTimePicker.css" />
+		<script type="text/javascript" src="__PUBLIC__/Store/js/DateTimePicker.js"></script>
+		<script>
+			$(function(){
+				$("#dtBox").DateTimePicker();
+//				$("#end_time").DateTimePicker();
+			});
+		</script>
+	</head>
+	<body>
+		<div id="dtBox"></div>
+		<include file="Public:header" />
+		<div class="container">
+			<h1>流水记录</h1>
+			<div class="container_item">
+				<ul>
+					<li>
+						<label>开始时间：</label>
+						<input type="datetime" id="start_time" readonly />
+						<div class="clear"></div>
+					</li>
+					<li>
+						<label>结束时间：</label>
+						<input type="datetime" id="end_time" readonly />
+						<div class="clear"></div>
+					</li>
+					<input type="hidden" id="hidSql" value="{$sql_where}" />
+				</ul>
+				<a href="javascript:;" onclick="funScreen();" class="submit">筛选</a>
+
+			</div>
+			<div class="container_list">
+				<table cellpadding="0" cellspacing="0">
+					<tr>
+						<td width="20%" align="center">账户</td>
+						<td width="20%" align="center">姓名</td>
+						<td width="10%" align="center">金额</td>
+						<td	width="20%" align="center">时间</td> 
+						<td width="20%" align="center">状态</td>
+					</tr>
+				</table>
+				<ul class="lists">
+					<!--
+					<volist name="list" id="v">
+					<li>
+						<table cellpadding="0" cellspacing="0">
+							<tr>
+								<td width="10%" align="center">{$v.id}</td>
+								<td width="15%" align="center">{$v.merchant_name}</td>
+								<td width="5%" align="center">{$v.number}</td>
+								<td width="5%" align="center">{$v.price}</td>
+								<td width="15%" align="center">{$v.date_time|date='Y-m-d H:i:s',###} </td>
+								<td width="25%" align="center"><a href="">查看</a>&nbsp;|&nbsp;<a href="">删除</a></td>
+							</tr>
+						</table>
+					</li>
+					</volist>
+					-->
+				</ul>
+			</div>
+		</div>
+	</body>
+<script>
+
+
+//筛选
+function funScreen(){
+	var start_time = $("#start_time").val();
+	var end_time = $("#end_time").val();
+	
+	window.location.href = "/index.php/Store/Shop/indexCashLog.html?start_time="+start_time+"&end_time="+end_time;
+
+}
+
+$(function(){
+	var page = 0;
+	var sql_where = $("#hidSql").val();
+	loadData();
+	
+	function loadData(){
+		
+		$('.container_list').dropload({
+			scrollArea : window,
+			loadDownFn : function(me){
+				page++;
+
+				$.ajax({
+					url : '{:U("onIndexCashLog")}',
+					type : "POST",
+					data : {
+						page : page,
+						sql_where : sql_where,
+					},
+					dataType : 'json',
+					success : function(result){
+						if(result.length > 0){
+							for(var i = 0;i < result.length;i++){
+								$('.lists').append(result[i]);
+							}
+						}else{
+							me.lock();
+							me.noData();
+						}
+						me.resetload();
+					}
+				});
+			}
+		});
+	}
+});
+</script>
+</html>

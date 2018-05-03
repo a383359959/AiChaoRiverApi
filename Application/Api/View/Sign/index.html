@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+ <html lang="en">
+ 	<script type="text/javascript" src="__PUBLIC__/Store/js/jquery.min.js"></script>
+ <head>
+ 	<meta charset="UTF-8">
+ 	<title>Document</title>
+ </head>
+ <body>
+
+ <div>{$list.number}</div>
+ 	
+ 	<button  onclick="aa();" id="a">请签到</button>
+ </body>
+ <script>
+ 	function aa(){
+ 		
+				$.ajax({
+				    type : "POST",  
+					url : '{:U("Sign/doaa")}',
+				
+					success : function(result){
+						if(result == "2"){
+							
+								window.location.href = "/index.php/Peisong/Sign/index";
+						}
+						if(result == "1"){
+							
+								alert("今天已签到");
+						}
+					}
+				});
+ 	}
+ </script>
+ </html> 

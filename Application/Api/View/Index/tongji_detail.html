@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no,minimal-ui">
+		<title>统计管理</title>
+		<link rel="stylesheet" href="__PUBLIC__/Store/css/common.css" />
+		<link rel="stylesheet" href="__PUBLIC__/Store/css/style.css" />
+		<script type="text/javascript" src="__PUBLIC__/Store/js/jquery.min.js"></script>
+		<script type="text/javascript" src="__PUBLIC__/Store/js/common.js"></script>
+		<link rel="stylesheet" href="__PUBLIC__/Store/css/dropload.css">
+		<script src="__PUBLIC__/Store/js/dropload.min.js"></script>
+	</head>
+	<body>
+		<header>
+			<a href="javascript:;">统计管理</a>
+			<i></i>
+			<div class="clear"></div>
+		</header>
+		<div class="container">
+			<h1>统计管理 - {$peisong.name}</h1>
+			<div class="container_list">
+				<table cellpadding="0" cellspacing="0">
+					<tr>
+						<td width="50%" align="center">时间</td>
+						<td	width="50%" align="center">数量</td>
+					</tr>
+				</table>
+				<ul class="lists">
+					<volist name="list" id="value">
+					<li>
+						<table cellpadding="0" cellspacing="0">
+							<tr>
+								<td width="50%" align="center">{$value.datetime}</td>
+								<td width="50%" align="center">{$value.count}</td>
+							</tr>
+						</table>
+					</li>
+					</volist>
+				</ul>
+			</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no,minimal-ui">
+		<title>配送列表</title>
+		<link rel="stylesheet" href="__PUBLIC__/Peisong/css/common.css" />
+		<link rel="stylesheet" href="__PUBLIC__/Peisong/css/style.css" />
+		<script type="text/javascript" src="__PUBLIC__/Peisong/js/jquery.min.js"></script>
+		<script type="text/javascript" src="__PUBLIC__/Peisong/js/common.js"></script>
+		<script type="text/javascript" src="__PUBLIC__/Peisong/js/countdown.js"></script>
+		<link rel="stylesheet" href="__PUBLIC__/Peisong/css/dropload.css">
+		<script src="__PUBLIC__/Peisong/js/dropload.min.js"></script>
+		<script>
+			{$htmlJs}
+		</script>
+	</head>
+	<body>
+		<include file="Public:header" />
+		<div class="container">
+			<h1>配送列表</h1>
+			
+			{$listHtml}
+			
+		</div>
+
+		<br/><br/><br/>
+		
+		<div class="container">
+			<h1>配送记录</h1>
+			
+			<div class="task_container">
+				<ul class="lists">
+				
+				</ul>
+			</div>
+								
+								
+								
+								
+								
+		</div>
+	</body>
+	
+	<script>
+	
+		//接单
+		function funSongDa(id){
+		
+			if(confirm("确定已送达吗？")){
+				
+				$.post("/index.php/Peisong/Task/doPeiSongSongDa",
+				{"id":id},
+				function(result){
+
+					if(result == "1"){
+						window.location.href = "/index.php/Peisong/Task/peisong";
+					}else{
+						alert("操作失败！请稍后再试。");
+					}
+
+				});
+
+			}
+		}
+		
+			
+		$(function(){
+			var page = 0;
+			
+			loadData();
+			
+			function loadData(){
+				
+				$('.container_list').dropload({
+					scrollArea : window,
+					loadDownFn : function(me){
+						page++;
+
+						$.ajax({
+							url : '{:U("peisongFlip")}',
+							data : {
+								page : page
+							},
+							dataType : 'json',
+							success : function(result){
+								if(result.length > 0){
+									for(var i = 0;i < result.length;i++){
+										$('.lists').append(result[i]);
+									}
+								}else{
+									me.lock();
+									me.noData();
+								}
+								me.resetload();
+							}
+						});
+					}
+				});
+			}
+	});
+		
+	</script>
+	
+</html>

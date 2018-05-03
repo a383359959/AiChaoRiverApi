@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no,minimal-ui">
+		<title>个人中心</title>
+		<link rel="stylesheet" href="__PUBLIC__/Store/css/common.css" />
+		<link rel="stylesheet" href="__PUBLIC__/Store/css/style.css" />
+		<script type="text/javascript" src="__PUBLIC__/Store/js/jquery.min.js"></script>
+		<script type="text/javascript" src="__PUBLIC__/Store/js/common.js"></script>
+		<script type="text/javascript" src="__PUBLIC__/Store/js/plupload/plupload.full.min.js"></script>
+		
+	</head>
+	<body>
+		<include file="Public:header" />
+		<!--
+		<div class="container">
+			<h1>系统公告</h1>
+		</div>-->
+		<!--
+		<marquee direction="left" >{$row[0]['content']}</marquee>
+		<marquee direction="left" ><foreach name="asd" item="val">{$val.content}</foreach></marquee>
+		-->
+		<div class="container">
+			<h1>个人中心</h1>
+			<div class="container_form">
+			<form action="" method="post">
+				<input type="hidden" name="form_submit" value="ok" />
+				<ul>
+				
+					<li>
+						余额：{$data.price}&nbsp;&nbsp;<a href="/index.php/Peisong/Index/indexCash">提现</a>&nbsp;&nbsp;<a href="/Index.php/Peisong/Index/indexCashLog">流水</a>
+					</li>
+					<li>
+						<div id="sign" style="float: left;">点击签到</div>（连续<span id="qiandaoshu">{$shu}</span>次）
+					</li>
+					<li>
+						身份：{$data['shenfen']}
+					</li>
+					<li>
+						级别：{$data['dengji']}级
+					</li>
+					<li>
+						积分：{$integral}
+					</li>
+			<input type="hidden" name="" id="a" value="{$a}">
+			<input type="hidden" name="" id="b" value="{$b}">
+	
+<script type="text/javascript">
+	$("#sign").click(function(){
+
+		var a =$("#a").val();
+		var b =$("#b").val();
+		
+		if(a == b){
+			alert("今天已签到");
+		}else{
+
+			$.ajax({
+				url : '{:U("Index/dosign")}',
+				success : function(result){
+					if(result == "2" || result == "1"){
+						alert("签到成功");
+						window.location.href = "/index.php/Peisong/Index/index";
+					}
+				}
+			});
+
+		}
+	});
+	
+
+</script>
+					<li>
+						<label>所属学校</label>
+						<select id="school_id" name="school_id" disabled="disabled">
+							<volist name="school" id="v">
+							<option value="{$v.id}" <if condition="$v['id'] == $data['school_id']">selected="selected"</if> >{$v.name}</option>
+							</volist>
+						</select>
+						<input type="hidden" id="school_id" value="{$data['school_id']}" />
+					</li>
+					
+					<li>
+						<label>姓名</label>
+						<input type="text" name="name" id="name" placeholder="手机号" value="{$data.name}" />
+					</li>
+
+
+					<li>
+						<label>手机号</label>
+						<input type="text" name="phone" id="phone" placeholder="手机号" value="{$data.phone}" />
+					</li>
+					<li>
+						<label>是否接受派单</label>
+						<!-- <select id="is_paidan" name="is_paidan">
+							<option value="0" <if condition="$data['is_paidan'] == '0'"> selected="selected"</if> >接受</option>
+							<option value="1" <if condition="$data['is_paidan'] == '1'"> selected="selected"</if> >不接受</option>
+						</select> -->
+						<select name="is_paidan" id="is_paidan" >
+	   						 <option value='0' <if condition="$data['is_paidan'] == 0">selected</if> >接受</option>
+	    					 <option value='1' <if condition="$data['is_paidan'] == 1">selected</if> >不接受</option>
+    					 <select>
+						<!-- <input type="text" name="abstract" id="abstract"  /> -->
+					</li>
+
+				</ul>
+				<a href="javascript:;" onclick="funSubmit();" class="submit">保存</a>
+				</form>
+				
+			</div>
+		</div>
+
+		
+		
+	</body>
+
+	<script>
+
+		function funSubmit(){
+			var school_id = $("#school_id").val();
+			var name = $("#name").val();
+			var phone = $("#phone").val();
+			var is_paidan = $("#is_paidan").val();
+<!-- alert(is_paidan); -->
+			$.post("/index.php/Peisong/Index/doIndex",
+			{ "school_id":school_id , "name":name , "phone":phone, "is_paidan":is_paidan},
+			function(result){
+
+				switch(result){
+					
+					
+					case "1":
+						window.location.href = "/index.php/Peisong/Index/index";
+					break;
+
+				}
+	
+
+			});
+
+
+
+		}
+
+	</script>
+</html>

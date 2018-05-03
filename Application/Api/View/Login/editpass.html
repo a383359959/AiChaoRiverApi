@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no,minimal-ui">
+		<title>爱超云点餐 - 登录</title>
+		<link rel="stylesheet" href="__PUBLIC__/Store/css/common.css" />
+		<link rel="stylesheet" href="__PUBLIC__/Store/css/style.css" />
+		<script type="text/javascript" src="__PUBLIC__/Store/js/jquery.min.js"></script>
+		<script type="text/javascript" src="__PUBLIC__/Store/js/common.js"></script>
+	</head>
+	<body>
+		<include file="Public:header" />
+		<div class="login">
+			<div class="container_form">
+				<ul>
+					<li>
+						<!-- <label>手机号</label> -->
+						<input type="text" name="phone" id="phone" placeholder="请输入手机号" style="width:50%;float:left;" />
+						<div id="bb" style="width:20%;float:left; margin-left: 10%;">获取验证码</div>
+					</li>
+					<li>
+						<!-- <label>验证码</label> -->
+						<input type="text" name="code" id="code" placeholder="验证码" style="width:50%;float:left;" required="required">
+						
+						
+						<div id="yzm" style="width:20%;float:left; margin-left: 10%; display: none">验证码正确</div>
+						<div id="zz" style="width:20%;float:left; margin-left: 10%; display: none">验证码错误</div>
+						<div id="kk" style="width:20%;float:left; margin-left: 10%; display: none">验证码为空</div>
+					</li>
+					<li>
+						<!-- <label>密码</label> -->
+						<input type="password" name="password" id="password" placeholder="请输入密码" required="required"/>
+					</li>
+					<li>
+						<!-- <label>确定密码</label> -->
+						<input type="password" name="rpassword" id="rpassword" placeholder="请确定密码" required="required" />
+					</li>
+				</ul>
+				<a href="javascript:;" id="qwe" class="submit">修改</a>
+				<input type="hidden"  id="co" >
+			</div>
+		</div>
+	</body>
+	
+	<script>
+	
+	$("#bb").click(function(){
+
+		// var name=$("#name").val();
+		var phone=$("#phone").val();
+		var rcode=$("#code").val();
+		 $.ajax({  
+                    type : "POST",  //提交方式  
+                    url : "{:U('Login/editajax')}",//路径  
+                    data : {  
+                        // "name" : name,
+                        "phone" : phone,
+                       
+                      
+                    },//数据，这里使用的是Json格式进行传输  
+                    	success:function(mes){
+                    		
+						if(mes==2){
+							alert("预留手机号不正确")
+						}else{
+							$("#co").val(mes);
+                    		if(rcode==mes){
+                    			// alert(11);
+                    		}
+						}
+                    	}
+
+                });  
+
+});
+
+		$("#code").blur(function(){
+
+			// var name=$("#name").val();
+			var phone=$("#phone").val();
+			var asd = $("#co").val();
+			var rcode=$("#code").val();
+			if(rcode!==asd){
+				$("#zz").css("display","block");
+				$("#yzm").css("display","none");
+				$("#kk").css("display","none");
+
+				$('#bb').css("display","none");
+			}
+			if(rcode ==""){
+				$("#zz").css("display","none");
+				$("#yzm").css("display","none");
+				$("#kk").css("display","block");
+
+				$('#bb').css("display","block");
+			}
+			if(rcode==asd && rcode!==""){
+				$("#yzm").css("display","block");
+				$("#zz").css("display","none");
+				$('#bb').css("display","none");
+				$("#kk").css("display","none");
+							$("#rpassword").blur(function(){
+	var password =$("#password").val();
+	var rpassword = $("#rpassword").val();
+	if(password!==rpassword){
+		alert("两次密码输入不一致");
+	}else{
+		$("#qwe").click(function(){
+			
+				 $.ajax({ 
+		 			  type : "POST",  //提交方式  
+                    url : "{:U('Login/edit')}",//路径  
+                    data : {  
+                        // "name" : name,
+                        "phone" : phone,
+                       	"password" :password,
+                      
+                    },//数据，这里使用的是Json格式进行传输  
+                    	success:function(zxc){
+                    		alert(zxc);
+                    		if(zxc == 11){
+                    			alert("修改成功!");
+                    			window.location.href="/index.php/Peisong/Login/login.html"
+                    		}
+                    		
+						}
+                });  
+		});
+
+	}
+});
+			}
+			
+			});
+	</script>
+	
+</html>

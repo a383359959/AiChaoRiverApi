@@ -1,0 +1,27 @@
+		<php>
+			//if(empty($_SESSION)){
+			//	Header("Location: /index.php/Store/Merchant/login");
+			//}
+		</php>
+		<header>
+			<a href="javascript:;">爱超配送端</a>
+			<i></i>
+			<div class="clear"></div>
+		</header>
+		<div class="menu">
+			<ul>
+				<li><a href="/index.php/Peisong/Task/index.html" <if condition="CONTROLLER_NAME eq 'Task' AND ACTION_NAME eq 'index'"> class="active" </if> >任务大厅</a></li>
+				<li><a href="/index.php/Peisong/Task/paidan.html" <if condition="ACTION_NAME eq 'paidan'"> class="active" </if> >派单列表</a></li>
+				<li><a href="/index.php/Peisong/Task/peisong.html" <if condition="ACTION_NAME eq 'peisong'"> class="active" </if> >配送列表</a></li>
+				<li><a href="/index.php/Peisong/Index/index.html" <if condition="CONTROLLER_NAME eq 'Index' AND ACTION_NAME eq 'index'"> class="active" </if> >个人中心</a></li>
+				<li><a href="javascrip:void(0);" onclick="_mayeOutLogin();" >退出登录</a></li>
+			</ul>
+		</div>
+		
+		<script>
+			function _mayeOutLogin(){
+				if(confirm("确定要退出登录吗？")){
+					window.location.href = "/index.php/Peisong/Login/outLogin.html";
+				}
+			}
+		</script>

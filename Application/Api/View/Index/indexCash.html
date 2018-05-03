@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no,minimal-ui">
+		<title>提现</title>
+		<link rel="stylesheet" href="__PUBLIC__/Store/css/common.css" />
+		<link rel="stylesheet" href="__PUBLIC__/Store/css/style.css" />
+		<script type="text/javascript" src="__PUBLIC__/Store/js/jquery.min.js"></script>
+		<script type="text/javascript" src="__PUBLIC__/Store/js/common.js"></script>
+		<script type="text/javascript" src="__PUBLIC__/Store/js/plupload/plupload.full.min.js"></script>
+
+	</head>
+	<body>
+		<include file="Public:header" />
+		<div class="container">
+			<h1>提现</h1>
+			<div class="container_form">
+				<ul>
+					<li>
+						现有金额：{$priceAll}
+						<input type="hidden" id="hidPrice" value="{$priceAll}" />
+					</li>
+					<li>
+						<label>提现金额</label>
+						<input type="text" name="price" id="price" placeholder="提现金额" value="" />
+					</li>
+					<li>
+						<label>支付宝帐号</label>
+						<input type="text" name="alipay_accounts" id="alipay_accounts" placeholder="支付宝帐号" value="" />
+					</li>
+					<li>
+						<label>姓名</label>
+						<input type="text" name="alipay_name" id="alipay_name" placeholder="姓名" value="" />
+					</li>
+				</ul>
+				<a href="javascript:;" onclick="funSubmit();" class="submit">提现</a>
+			</div>
+		</div>
+	</body>
+
+	<script>
+
+		function funSubmit(){
+
+			var price = $("#price").val();
+			var hidPrice = $("#hidPrice").val();
+			var alipay_accounts = $("#alipay_accounts").val();
+			var alipay_name = $("#alipay_name").val();
+
+			if(!Number(price)){
+				alert("请填写正确金额");
+				return false;
+			}
+
+			if(alipay_accounts == "" || alipay_accounts == "0"){
+				alert("支付吧帐号不能为空");
+				return false;
+			}
+
+			if(alipay_name == "" || alipay_name == "0"){
+				alert("姓名不能为空");
+				return false;
+			}
+
+			if(!Number(hidPrice)){
+				alert("参数错误");
+				return false;
+			}
+
+			if(Number(hidPrice) < Number(price)){
+				alert("余额不足");
+				return false;
+			}
+
+			$.post("/index.php/Peisong/Index/doConfigCash",
+			{"price":price , "alipay_accounts":alipay_accounts , "alipay_name":alipay_name},
+			function(result){
+
+				if(result == "1"){
+					alert("已申请");
+					window.location.href = "/index.php/Peisong/Index/index";
+				}else{
+					alert("操作失败！");
+				}
+
+			});
+
+		}
+
+	</script>
+
+</html>
